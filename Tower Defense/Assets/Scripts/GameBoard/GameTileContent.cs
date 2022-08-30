@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameTileContent : MonoBehaviour
@@ -20,5 +18,6 @@ public enum GameTileContentType
 {
     Empty,
     Destination,
-    Wall
+    Wall,
+    SpawnPoint
 }

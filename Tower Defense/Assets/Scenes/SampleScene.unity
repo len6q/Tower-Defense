@@ -580,10 +580,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ee5a8352235a4bb455c6cd55971ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boardSize: {x: 11, y: 11}
+  _boardSize: {x: 13, y: 11}
   _board: {fileID: 503499861}
   _main: {fileID: 330585545}
   _contentFactory: {fileID: 11400000, guid: e4b3fb949c3c99245aaf79fa53191b60, type: 2}
+  _enemyFacory: {fileID: 11400000, guid: e3f68a313cea53a4981cbe3574ab2fc7, type: 2}
+  _spawnSpeedEnemy: 3
 --- !u!4 &1820041677
 Transform:
   m_ObjectHideFlags: 0

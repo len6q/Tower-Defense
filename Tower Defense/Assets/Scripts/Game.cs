@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour
@@ -8,8 +6,15 @@ public class Game : MonoBehaviour
     [SerializeField] private GameBoard _board;
     [SerializeField] private Camera _main;
     [SerializeField] private GameTileContentFactory _contentFactory;
+    [SerializeField] private EnemyFactory _enemyFacory;
 
-    private Ray TouchRay => _main.ScreenPointToRay(Input.mousePosition);
+    [SerializeField, Range(1f, 10f)] private float _spawnSpeedEnemy;
+    
+    private float _spawnProgress;
+
+    private EnemyCollection _enemies = new EnemyCollection();
+
+    private Ray TouchRay => _main.ScreenPointToRay(Input.mousePosition);    
 
     private void Start()
     {
@@ -26,6 +31,23 @@ public class Game : MonoBehaviour
         {
             HandleTouch();
         }
+
+        _spawnProgress += _spawnSpeedEnemy * Time.deltaTime;
+        while(_spawnProgress >= 1f)
+        {
+            _spawnProgress -= 1f;
+            SpawnEnemy();
+        }
+
+        _enemies.GameUpdate();
+    }
+
+    private void SpawnEnemy()
+    {
+        GameTile spawnTile = _board.GetSpawnPoint(Random.Range(0, _board.SpawnPointCount));
+        Enemy enemy = _enemyFacory.Get();
+        enemy.SpawnOn(spawnTile);
+        _enemies.Add(enemy);
     }
 
     private void HandleTouch()
@@ -33,7 +55,14 @@ public class Game : MonoBehaviour
         GameTile tile = _board.GetTile(TouchRay);        
         if(tile != null)
         {
-            _board.ToggleDestination(tile);            
+            if(Input.GetKey(KeyCode.LeftShift))
+            {
+                _board.ToggleSpawnPoint(tile);
+            }
+            else
+            {
+                _board.ToggleDestination(tile);
+            }            
         }
     }
     

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +13,10 @@ public class GameBoard : MonoBehaviour
     private Queue<GameTile> _searchFrontier = new Queue<GameTile>();
 
     private GameTileContentFactory _contentFactory;
+
+    private List<GameTile> _spawnPoints = new List<GameTile>();
+
+    public int SpawnPointCount => _spawnPoints.Count;
 
     public void Initialize(Vector2Int size, GameTileContentFactory contentFactory)
     {
@@ -53,6 +56,7 @@ public class GameBoard : MonoBehaviour
         }
 
         ToggleDestination(_tiles[_tiles.Length / 2]);
+        ToggleSpawnPoint(_tiles[0]);
     }
 
     private bool FindPaths()
@@ -137,6 +141,23 @@ public class GameBoard : MonoBehaviour
         }
     }
 
+    public void ToggleSpawnPoint(GameTile tile)
+    {
+        if(tile.Content.Type == GameTileContentType.SpawnPoint)
+        {
+            if(_spawnPoints.Count > 1)
+            {
+                _spawnPoints.Remove(tile);
+                tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+            }
+        }
+        else if(tile.Content.Type == GameTileContentType.Empty)
+        {            
+            tile.Content = _contentFactory.Get(GameTileContentType.SpawnPoint);
+            _spawnPoints.Add(tile);
+        }
+    }
+
     public void ToggleWall(GameTile tile)
     {
         if (tile.Content.Type == GameTileContentType.Wall)
@@ -169,5 +190,10 @@ public class GameBoard : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public GameTile GetSpawnPoint(int index)
+    {
+        return _spawnPoints[index];
     }
 }
