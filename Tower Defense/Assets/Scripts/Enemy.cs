@@ -13,6 +13,21 @@ public class Enemy : MonoBehaviour
     private Direction _direction;
     private DirectionChange _directionChange;
     private float _directionAngleFrom, _directionAngleTo;
+    
+    private float _pathOffset;
+    private float _speed;
+
+    public float Scale { get; private set; }
+    public float Health { get; private set; }
+
+    public void Initialize(float scale, float pathOffset, float speed)
+    {
+        _model.localScale = new Vector3(scale, scale, scale);
+        _pathOffset = pathOffset;
+        _speed = speed;
+        Scale = scale;
+        Health = scale * 100f;
+    }
 
     public void SpawnOn(GameTile tile)
     {
@@ -31,9 +46,10 @@ public class Enemy : MonoBehaviour
         _direction = _tileFrom.PathDirection;
         _directionChange = DirectionChange.None;
         _directionAngleFrom = _directionAngleTo = _direction.GetAngle();
+        _model.localPosition = new Vector3(_pathOffset, 0f);
 
         transform.localRotation = _direction.GetRotation();
-        _progressFactor = 2f;
+        _progressFactor = _speed * 2f;
     }
 
     private void PrepareOutro()
@@ -41,13 +57,19 @@ public class Enemy : MonoBehaviour
         _positionTo = _tileFrom.transform.localPosition;
         _directionChange = DirectionChange.None;
         _directionAngleTo = _direction.GetAngle();
-        _model.localPosition = Vector3.zero;
+        _model.localPosition = new Vector3(_pathOffset, 0f);
         transform.localRotation = _direction.GetRotation();
-        _progressFactor = 2f;
+        _progressFactor = _speed * 2f;
     }
 
     public bool GameUpdate()
     {
+        if(Health <= 0)
+        {
+            OriginFactory.Reclaim(this);
+            return false;
+        }
+
         _progress += Time.deltaTime * _progressFactor;
         while (_progress >= 1f)
         {
@@ -73,6 +95,11 @@ public class Enemy : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
     }
 
     private void PrepareNextState()
@@ -102,31 +129,31 @@ public class Enemy : MonoBehaviour
     {
         transform.localRotation = _direction.GetRotation();
         _directionAngleTo = _direction.GetAngle();
-        _model.localPosition = Vector3.zero;
-        _progressFactor = 1f;
+        _model.localPosition = new Vector3(_pathOffset, 0f);
+        _progressFactor = _speed;
     }
 
     private void PrepareTurnRight()
     {
         _directionAngleTo = _directionAngleFrom + 90f;
-        _model.localPosition = new Vector3(-.5f, 0f);
+        _model.localPosition = new Vector3(_pathOffset - .5f, 0f);
         transform.localPosition = _positionFrom + _direction.GetHalfVector();
-        _progressFactor = 1f / (Mathf.PI * .25f);
+        _progressFactor = _speed / (Mathf.PI * .5f * (.5f - _pathOffset));
     }
 
     private void PrepareTurnLeft()
     {
         _directionAngleTo = _directionAngleFrom - 90f;
-        _model.localPosition = new Vector3(.5f, 0f);
+        _model.localPosition = new Vector3(_pathOffset + .5f, 0f);
         transform.localPosition = _positionFrom + _direction.GetHalfVector();
-        _progressFactor = 1f / (Mathf.PI * .25f);
+        _progressFactor = _speed / (Mathf.PI * .5f * (.5f - _pathOffset));
     }
 
     private void PrepareTurnAround()
     {
-        _directionAngleTo = _directionAngleFrom + 180f;
-        _model.localPosition = Vector3.zero;
+        _directionAngleTo = _directionAngleFrom + (_pathOffset < 0f ? 180f : -180f);
+        _model.localPosition = new Vector3(_pathOffset, 0f);
         transform.localPosition = _positionFrom;
-        _progressFactor = 2f;
+        _progressFactor = _speed / (Mathf.PI * Mathf.Max(Mathf.Abs(_pathOffset), .2f));
     }
 }

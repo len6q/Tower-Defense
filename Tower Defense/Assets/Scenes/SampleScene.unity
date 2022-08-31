@@ -585,7 +585,7 @@ MonoBehaviour:
   _main: {fileID: 330585545}
   _contentFactory: {fileID: 11400000, guid: e4b3fb949c3c99245aaf79fa53191b60, type: 2}
   _enemyFacory: {fileID: 11400000, guid: e3f68a313cea53a4981cbe3574ab2fc7, type: 2}
-  _spawnSpeedEnemy: 3
+  _spawnSpeedEnemy: 1
 --- !u!4 &1820041677
 Transform:
   m_ObjectHideFlags: 0

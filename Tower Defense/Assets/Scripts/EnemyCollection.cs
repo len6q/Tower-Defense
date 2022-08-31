@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 
-[Serializable]
 public class EnemyCollection 
 {
     private List<Enemy> _enemies = new List<Enemy>();

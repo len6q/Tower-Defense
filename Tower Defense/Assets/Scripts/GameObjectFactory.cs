@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public abstract class GameObjectFactory : ScriptableObject
 {
     private Scene _contentScene;
+
     protected T CreateGameObjectInstance<T>(T prefab) where T : MonoBehaviour
     {
         if (!_contentScene.isLoaded)

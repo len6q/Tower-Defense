@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 4001774723361141491, guid: 1ca94a31caa17d44fa0ad8d6bfb3a796,
     type: 3}
+  _scale:
+    _min: 0.5
+    _max: 1.2
+  _pathOffset:
+    _min: -0.4
+    _max: 0.4
+  _speed:
+    _min: 0.5
+    _max: 2.5

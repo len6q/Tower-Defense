@@ -4,6 +4,9 @@ using UnityEngine;
 public class EnemyFactory : GameObjectFactory
 {
     [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField, FloatRangeSlider(.5f, 2f)] private FloatRange _scale = new FloatRange(1f);
+    [SerializeField, FloatRangeSlider(-.4f, .4f)] private FloatRange _pathOffset = new FloatRange(0f); 
+    [SerializeField, FloatRangeSlider(.2f, 5f)] private FloatRange _speed = new FloatRange(1f); 
 
     public void Reclaim(Enemy enemy)
     {
@@ -14,6 +17,7 @@ public class EnemyFactory : GameObjectFactory
     {
         Enemy instance = CreateGameObjectInstance(_enemyPrefab);
         instance.OriginFactory = this;
+        instance.Initialize(_scale.RandomValueInRange, _pathOffset.RandomValueInRange, _speed.RandomValueInRange);
         return instance;
     }
 }
