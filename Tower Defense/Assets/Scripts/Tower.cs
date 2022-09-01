@@ -1,76 +1,35 @@
 using UnityEngine;
 
-public class Tower : GameTileContent
+public abstract class Tower : GameTileContent
 {
-    [SerializeField, Range(1.5f, 10f)] private float _targetingRange = 1.5f;
+    [SerializeField, Range(1.5f, 10f)] protected float _targetingRange = 1.5f;
+   
+    public new abstract TowerType Type { get; }
 
-    [SerializeField] private Transform _turret;
-    [SerializeField] private Transform _laserBeam;
-
-    [SerializeField, Range(1f, 100f)] private float _damagePerSecond = 10f;
-
-    private Vector3 _laserBeamScale;
-
-    private TargetPoint _target;
-
-    private const int ENEMY_LAYER_MASK = 1 << 3;
-
-    private void Awake()
+    protected bool IsAcquireTarget(out TargetPoint target)
     {
-        _laserBeamScale = _laserBeam.localScale;
-    }
-
-    public override void GameUpdate()
-    {
-        if(IsTargetTracked() || IsAcquireTarget())
+        if(TargetPoint.FillBuffer(transform.localPosition, _targetingRange))
         {
-            Shoot();
-        }
-        else
-        {
-            _laserBeam.localScale = Vector3.zero;
-        }
-    }
-
-    private void Shoot()
-    {
-        var point = _target.Position;
-        _turret.LookAt(point);
-        _laserBeam.localRotation = _turret.localRotation;
-
-        var distance = Vector3.Distance(_turret.position, point);
-        _laserBeamScale.z = distance;
-        _laserBeam.localScale = _laserBeamScale;
-        _laserBeam.localPosition = _turret.localPosition + .5f * distance * _laserBeam.forward;
-
-        _target.Enemy.TakeDamage(_damagePerSecond * Time.deltaTime);
-    }
-
-    private bool IsAcquireTarget()
-    {
-        Collider[] targets = Physics.OverlapSphere(transform.localPosition, _targetingRange, ENEMY_LAYER_MASK);
-        if(targets.Length > 0)
-        {
-            _target = targets[0].GetComponent<TargetPoint>();
+            target = TargetPoint.GetBuffered(0);
             return true;
         }
 
-        _target = null;
+        target = null;
         return false;
     }
 
-    private bool IsTargetTracked()
+    protected bool IsTargetTracked(ref TargetPoint target)
     {
-        if (_target == null)
+        if (target == null)
         {
             return false;
         }
 
         Vector3 myPos = transform.localPosition;
-        Vector3 targetPos = _target.Position;
-        if(Vector3.Distance(myPos, targetPos) > _targetingRange + _target.ColliderSize * _target.Enemy.Scale)
+        Vector3 targetPos = target.Position;
+        if(Vector3.Distance(myPos, targetPos) > _targetingRange + target.ColliderSize * target.Enemy.Scale)
         {
-            _target = null;
+            target = null;
             return false;
         }
 
@@ -83,11 +42,5 @@ public class Tower : GameTileContent
         Vector3 position = transform.localPosition;
         position.y += .01f;
         Gizmos.DrawWireSphere(position, _targetingRange);
-
-        if(_target != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(position, _target.Position);
-        }
     }
 }
