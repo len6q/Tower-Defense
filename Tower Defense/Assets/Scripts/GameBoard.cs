@@ -5,6 +5,7 @@ public class GameBoard : MonoBehaviour
 {
     [SerializeField] private Transform _ground;
     [SerializeField] private GameTile _tilePrefab;
+    [SerializeField] private Texture2D _gridTexture;
 
     private Vector2Int _size;
 
@@ -17,6 +18,51 @@ public class GameBoard : MonoBehaviour
     private List<GameTile> _spawnPoints = new List<GameTile>();
 
     private List<GameTileContent> _contentToUpdate = new List<GameTileContent>();
+
+    private bool _showPath;
+    private bool _showGrid;
+
+    public bool ShowGrid
+    {
+        get => _showGrid;
+        set
+        {
+            _showGrid = value;
+            Material mat = _ground.GetComponent<MeshRenderer>().material;            
+            if(_showGrid)
+            {
+                mat.mainTexture = _gridTexture;
+                mat.mainTextureScale = _size;                
+            }
+            else
+            {
+                mat.mainTexture = null;
+            }
+        }
+    }
+
+    public bool ShowPath
+    {
+        get => _showPath;
+        set
+        {
+            _showPath = value;
+            if(_showPath)
+            {
+                foreach(var tile in _tiles)
+                {
+                    tile.ShowPath();
+                }
+            }
+            else
+            {
+                foreach(var tile in _tiles)
+                {
+                    tile.HidePath();
+                }
+            }
+        }
+    }
 
     public int SpawnPointCount => _spawnPoints.Count;
 
@@ -51,12 +97,22 @@ public class GameBoard : MonoBehaviour
                 if((y & 1) == 0)
                 {
                     tile.IsAlternative = !tile.IsAlternative;
-                }
-
-                tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+                }                
             }
         }
 
+        Clear();        
+    }
+
+    public void Clear()
+    {
+        foreach(var tile in _tiles)
+        {
+            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+        }
+
+        _spawnPoints.Clear();
+        _contentToUpdate.Clear();
         ToggleDestination(_tiles[_tiles.Length / 2]);
         ToggleSpawnPoint(_tiles[0]);
     }
@@ -121,9 +177,12 @@ public class GameBoard : MonoBehaviour
             }
         }
 
-        foreach (var tile in _tiles)
+        if (_showPath)
         {
-            tile.ShowPath();
+            foreach (var tile in _tiles)
+            {
+                tile.ShowPath();
+            }
         }
 
         return true;

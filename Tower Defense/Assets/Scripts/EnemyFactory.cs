@@ -1,23 +1,52 @@
 using UnityEngine;
+using System;
 
 [CreateAssetMenu]
 public class EnemyFactory : GameObjectFactory
 {
-    [SerializeField] private Enemy _enemyPrefab;
-    [SerializeField, FloatRangeSlider(.5f, 2f)] private FloatRange _scale = new FloatRange(1f);
-    [SerializeField, FloatRangeSlider(-.4f, .4f)] private FloatRange _pathOffset = new FloatRange(0f); 
-    [SerializeField, FloatRangeSlider(.2f, 5f)] private FloatRange _speed = new FloatRange(1f); 
+    [Serializable]
+    private class EnemyConfig
+    {
+        public Enemy Prefab;
+
+        [FloatRangeSlider(.5f, 2f)] public FloatRange Scale = new FloatRange(1f);
+        [FloatRangeSlider(-.4f, .4f)] public FloatRange PathOffset = new FloatRange(0f);
+        [FloatRangeSlider(.2f, 5f)] public FloatRange Speed = new FloatRange(1f);
+        [FloatRangeSlider(10f, 100f)] public FloatRange Health = new FloatRange(50f);
+    }
+
+    [SerializeField] private EnemyConfig _small;
+    [SerializeField] private EnemyConfig _medium;
+    [SerializeField] private EnemyConfig _large;
 
     public void Reclaim(Enemy enemy)
     {
         Destroy(enemy.gameObject);
     }
 
-    public Enemy Get()
+    private EnemyConfig GetConfig(EnemyType type)
     {
-        Enemy instance = CreateGameObjectInstance(_enemyPrefab);
+        switch (type)
+        {
+            case EnemyType.Small: return _small;
+            case EnemyType.Medium: return _medium;
+            case EnemyType.Large: return _large;
+        }
+        return null;
+    }
+
+    public Enemy Get(EnemyType type)
+    {
+        EnemyConfig config = GetConfig(type);
+        Enemy instance = CreateGameObjectInstance(config.Prefab);
         instance.OriginFactory = this;
-        instance.Initialize(_scale.RandomValueInRange, _pathOffset.RandomValueInRange, _speed.RandomValueInRange);
+        instance.Initialize(
+            config.Scale.RandomValueInRange, 
+            config.PathOffset.RandomValueInRange, 
+            config.Speed.RandomValueInRange,
+            config.Health.RandomValueInRange
+            );
+
         return instance;
     }
 }

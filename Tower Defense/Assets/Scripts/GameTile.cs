@@ -99,5 +99,10 @@ public class GameTile : MonoBehaviour
             _nextOnPath == _south ? _southRotation :
             _westRotation;
     }
+
+    public void HidePath()
+    {
+        _arrow.gameObject.SetActive(false);
+    }
 }
 

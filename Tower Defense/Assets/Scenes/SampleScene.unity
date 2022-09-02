@@ -388,6 +388,7 @@ MonoBehaviour:
   _ground: {fileID: 1603136060}
   _tilePrefab: {fileID: 4221333364684078621, guid: ed19edc5138ebe84b80e072304f5f8c3,
     type: 3}
+  _gridTexture: {fileID: 2800000, guid: 945c6b7705421104b84575e5310a3ae2, type: 3}
 --- !u!4 &503499862
 Transform:
   m_ObjectHideFlags: 0
@@ -580,13 +581,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ee5a8352235a4bb455c6cd55971ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boardSize: {x: 13, y: 11}
+  _scenario: {fileID: 11400000, guid: c39bc596e14605c4897bc17ec6a65fd3, type: 2}
+  _boardSize: {x: 11, y: 11}
   _board: {fileID: 503499861}
   _main: {fileID: 330585545}
   _contentFactory: {fileID: 11400000, guid: e4b3fb949c3c99245aaf79fa53191b60, type: 2}
-  _enemyFacory: {fileID: 11400000, guid: e3f68a313cea53a4981cbe3574ab2fc7, type: 2}
   _warFactory: {fileID: 11400000, guid: 8d7062a2349ad6e4ba5bdfc52785634c, type: 2}
-  _spawnSpeedEnemy: 7
+  _prepareTime: 10
+  _playSpeed: 1
+  _startingPlayerHealth: 20
 --- !u!4 &1820041677
 Transform:
   m_ObjectHideFlags: 0
