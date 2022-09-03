@@ -17,6 +17,7 @@ public class Enemy : GameBehavior
     
     private float _pathOffset;
     private float _speed;
+    private float _originalSpeed;
 
     public float Scale { get; private set; }
     public float Health { get; private set; }
@@ -25,6 +26,7 @@ public class Enemy : GameBehavior
     {
         _model.localScale = new Vector3(scale, scale, scale);
         _pathOffset = pathOffset;
+        _originalSpeed = speed;
         _speed = speed;
         Scale = scale;
         Health = health;
@@ -111,6 +113,13 @@ public class Enemy : GameBehavior
         Health -= damage;
     }
 
+    public void SetSpeed(float factor)
+    {
+        _speed = _originalSpeed * factor;
+        HandleDirection();
+        _view.SetSpeedFactor(factor);
+    }
+
     private void PrepareNextState()
     {
         _tileFrom = _tileTo;
@@ -125,6 +134,11 @@ public class Enemy : GameBehavior
         _direction = _tileFrom.PathDirection;
         _directionAngleFrom = _directionAngleTo;
 
+        HandleDirection();
+    }
+
+    private void HandleDirection()
+    {
         switch (_directionChange)
         {
             case DirectionChange.None: PrepareForward(); break;

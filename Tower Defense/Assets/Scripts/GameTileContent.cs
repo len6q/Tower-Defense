@@ -27,6 +27,7 @@ public enum GameTileContentType
     Destination,
     Wall,
     SpawnPoint,
+    Ice,
     Tower
 }
 

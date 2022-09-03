@@ -173,7 +173,11 @@ public class Game : MonoBehaviour
         GameTile tile = _board.GetTile(TouchRay);
         if(tile != null)
         {
-            if(Input.GetKey(KeyCode.LeftShift))
+            if(Input.GetKey(KeyCode.I))
+            {
+                _board.ToggleIceObstacle(tile);
+            }
+            else if(Input.GetKey(KeyCode.LeftShift))
             {
                 _board.ToggleTower(tile, _currentTowerType);
             }

@@ -241,6 +241,20 @@ public class GameBoard : MonoBehaviour
         }
     }
 
+    public void ToggleIceObstacle(GameTile tile)
+    {
+        if (tile.Content.Type == GameTileContentType.Ice)
+        {
+            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+            _contentToUpdate.Remove(tile.Content);
+        }
+        else if (tile.Content.Type == GameTileContentType.Empty)
+        {
+            tile.Content = _contentFactory.Get(GameTileContentType.Ice);
+            _contentToUpdate.Add(tile.Content);
+        }
+    }
+
     public void ToggleTower(GameTile tile, TowerType type)
     {
         if (tile.Content.Type == GameTileContentType.Tower)

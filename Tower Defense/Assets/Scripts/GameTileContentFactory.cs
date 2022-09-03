@@ -7,7 +7,8 @@ public class GameTileContentFactory : GameObjectFactory
     [SerializeField] private GameTileContent _destinationPrefab;
     [SerializeField] private GameTileContent _wallPrefab;
     [SerializeField] private GameTileContent _spawnPointPrefab;    
-    [SerializeField] private Tower[] _towersPrefab;    
+    [SerializeField] private Tower[] _towersPrefab;  
+    [SerializeField] private IceObstacle _icePrefab;
 
     public void Reclaim(GameTileContent content)
     {
@@ -25,7 +26,9 @@ public class GameTileContentFactory : GameObjectFactory
             case GameTileContentType.Wall:
                 return Get(_wallPrefab);
             case GameTileContentType.SpawnPoint:
-                return Get(_spawnPointPrefab);            
+                return Get(_spawnPointPrefab); 
+            case GameTileContentType.Ice:
+                return Get(_icePrefab);            
         }
         return null;
     }
