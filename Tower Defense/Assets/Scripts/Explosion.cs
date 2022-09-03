@@ -25,7 +25,7 @@ public class Explosion : WarEntity
                 TargetPoint.GetBuffered(i).Enemy.TakeDamage(damage);
             }
         }
-        
+                
         transform.localPosition = position;
         _scale = 2f * blastRadius;
     }

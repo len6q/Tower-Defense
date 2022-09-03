@@ -587,7 +587,7 @@ MonoBehaviour:
   _main: {fileID: 330585545}
   _contentFactory: {fileID: 11400000, guid: e4b3fb949c3c99245aaf79fa53191b60, type: 2}
   _warFactory: {fileID: 11400000, guid: 8d7062a2349ad6e4ba5bdfc52785634c, type: 2}
-  _prepareTime: 10
+  _prepareTime: 5
   _playSpeed: 1
   _startingPlayerHealth: 20
 --- !u!4 &1820041677
