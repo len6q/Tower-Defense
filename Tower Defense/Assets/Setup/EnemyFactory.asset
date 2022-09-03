@@ -16,44 +16,44 @@ MonoBehaviour:
     Prefab: {fileID: 4039413211455582134, guid: d9d5f457613b73345b267de32aacbb0c,
       type: 3}
     Scale:
-      _min: 1.2
-      _max: 1.4999998
+      _min: 0.5
+      _max: 0.8
     PathOffset:
       _min: -0.4
       _max: 0.4
     Speed:
-      _min: 2.5
-      _max: 3.5
+      _min: 3
+      _max: 4
     Health:
-      _min: 20
-      _max: 45
+      _min: 80
+      _max: 120
   _medium:
     Prefab: {fileID: 4001774723361141491, guid: 1ca94a31caa17d44fa0ad8d6bfb3a796,
       type: 3}
     Scale:
       _min: 0.8
-      _max: 1.5
+      _max: 1
     PathOffset:
-      _min: -0.28852725
-      _max: 0.29894227
+      _min: -0.2
+      _max: 0.2
     Speed:
-      _min: 2
-      _max: 3
+      _min: 1.5
+      _max: 2.5
     Health:
-      _min: 50
-      _max: 70
+      _min: 150
+      _max: 300
   _large:
     Prefab: {fileID: 4474525324007831586, guid: 83ed7f2e22d18f34e948b17c9215b22e,
       type: 3}
     Scale:
-      _min: 0.81244916
-      _max: 1.3
-    PathOffset:
-      _min: -0.2510171
-      _max: 0.25622457
-    Speed:
       _min: 0.5
+      _max: 0.8
+    PathOffset:
+      _min: 0
+      _max: 0
+    Speed:
+      _min: 1
       _max: 1.5
     Health:
-      _min: 80
-      _max: 100
+      _min: 500
+      _max: 1000

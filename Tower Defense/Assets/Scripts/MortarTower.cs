@@ -21,7 +21,7 @@ public class MortarTower : Tower
 
     private void OnValidate()
     {
-        float x = _targetingRange + .251f;
+        float x = _targetingRange + .301f;
         float y = -_mortar.position.y;
         _lauchSpeed = Mathf.Sqrt(_gravity * (y + Mathf.Sqrt(x * x + y * y)));
     }
