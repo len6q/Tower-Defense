@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8cc8cdce3410e4cbf5cc5eb69265f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 4
+  _type: 5
   _targetingRange: 2.5
   _shootsPerSeconds: 0.5
   _mortar: {fileID: 4725512144977117716}

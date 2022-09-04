@@ -2,9 +2,7 @@ using UnityEngine;
 
 public abstract class Tower : GameTileContent
 {
-    [SerializeField, Range(1.5f, 10f)] protected float _targetingRange = 1.5f;
-   
-    public new abstract TowerType Type { get; }
+    [SerializeField, Range(1.5f, 10f)] protected float _targetingRange = 1.5f;    
 
     protected bool IsAcquireTarget(out TargetPoint target)
     {

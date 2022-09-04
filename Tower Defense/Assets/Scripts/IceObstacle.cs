@@ -1,26 +1,23 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class IceObstacle : GameTileContent
+public class IceObstacle : Trap
 {
-    [SerializeField] private IceTrigger _iceTrigger;
-
     private static readonly Dictionary<TargetPoint, Guid> _globalTargetStorage =
         new Dictionary<TargetPoint, Guid>();
     private readonly Dictionary<TargetPoint, Guid> _internalTargetStorage =
-        new Dictionary<TargetPoint, Guid>();
+        new Dictionary<TargetPoint, Guid>();    
 
     private void Awake()
     {
-        _iceTrigger.Entered += OnTargetEntered;
-        _iceTrigger.Exited += OnTargetExited;
+        Entered += OnTargetEntered;
+        Exited += OnTargetExited;
     }
 
     private void OnDestroy()
     {
-        _iceTrigger.Entered -= OnTargetEntered;
-        _iceTrigger.Exited -= OnTargetExited;
+        Entered -= OnTargetEntered;
+        Exited -= OnTargetExited;
     }
 
     private void OnTargetEntered(TargetPoint target)

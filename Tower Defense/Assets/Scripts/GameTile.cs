@@ -31,7 +31,7 @@ public class GameTile : MonoBehaviour
         set
         {
             if(_content != null)
-            {
+            {                
                 _content.Recycle();
             }
 

@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class IceTrigger : MonoBehaviour
-{
-    public event Action<TargetPoint> Entered;
-    public event Action<TargetPoint> Exited;
+public abstract class Trap : GameTileContent
+{    
+    protected event Action<TargetPoint> Entered;
+    protected event Action<TargetPoint> Exited;
 
     private void OnTriggerEnter(Collider other)
-    {
-        if(other.TryGetComponent(out TargetPoint target))
+    {        
+        if (other.TryGetComponent(out TargetPoint target))
         {            
             Entered?.Invoke(target);
         }
@@ -17,7 +17,7 @@ public class IceTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent(out TargetPoint target))
+        if (other.TryGetComponent(out TargetPoint target))
         {
             Exited?.Invoke(target);
         }

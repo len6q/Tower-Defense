@@ -10,9 +10,7 @@ public class LaserTower : Tower
     private Vector3 _laserBeamScale;
     private Vector3 _laserBeamStartPosition;
 
-    private TargetPoint _target;
-
-    public override TowerType Type => TowerType.Laser;
+    private TargetPoint _target;    
 
     private void Awake()
     {

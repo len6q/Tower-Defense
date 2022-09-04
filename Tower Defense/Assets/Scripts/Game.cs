@@ -11,6 +11,7 @@ public class Game : MonoBehaviour
     [SerializeField] private WarFactory _warFactory;
 
     [SerializeField, Range(5f, 30f)] private float _prepareTime = 5f;
+    
     private bool _scenationInProcess;
 
     [SerializeField, Range(.1f, 10f)] private float _playSpeed = 1f; 
@@ -25,7 +26,8 @@ public class Game : MonoBehaviour
 
     private Ray TouchRay => _main.ScreenPointToRay(Input.mousePosition);
 
-    private TowerType _currentTowerType;
+    private GameTileContentType _currentTowerType = GameTileContentType.LaserTower;
+    private GameTileContentType _currentTrapType = GameTileContentType.IceObstacle;
 
     private GameScenario.State _activeScenario;
 
@@ -75,11 +77,13 @@ public class Game : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _currentTowerType = TowerType.Laser;
+            _currentTowerType = GameTileContentType.LaserTower;
+            _currentTrapType = GameTileContentType.IceObstacle;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _currentTowerType = TowerType.Mortar;
+            _currentTowerType = GameTileContentType.MortarTower;
+            _currentTrapType = GameTileContentType.SpikeObstacle;
         }
 
         if(Input.GetMouseButtonDown(0))
@@ -146,7 +150,7 @@ public class Game : MonoBehaviour
 
     public static void SpawnEnemy(EnemyFactory factory, EnemyType type)
     {
-        GameTile spawnTile = _instance._board.GetSpawnPoint(Random.Range(0, _instance._board.SpawnPointCount));
+        GameTile spawnTile = _instance._board.GetSpawnPoint();
         Enemy enemy = factory.Get(type);
         enemy.SpawnOn(spawnTile);
         _instance._enemies.Add(enemy);
@@ -159,11 +163,11 @@ public class Game : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.LeftShift))
             {
-                _board.ToggleSpawnPoint(tile);
+                _board.ToggleContent(tile, GameTileContentType.SpawnPoint);
             }
             else
             {
-                _board.ToggleDestination(tile);
+                _board.ToggleContent(tile, GameTileContentType.Destination);
             }            
         }
     }
@@ -175,15 +179,15 @@ public class Game : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.I))
             {
-                _board.ToggleIceObstacle(tile);
+                _board.ToggleContent(tile, _currentTrapType);
             }
             else if(Input.GetKey(KeyCode.LeftShift))
             {
-                _board.ToggleTower(tile, _currentTowerType);
+                _board.ToggleContent(tile, _currentTowerType);
             }
             else
             {
-                _board.ToggleWall(tile);
+                _board.ToggleContent(tile, GameTileContentType.Wall);
             }            
         }
     }

@@ -9,40 +9,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b73bc8733d6a9e4b9b85afe5935b250, type: 3}
-  m_Name: EnemyFactory
+  m_Script: {fileID: 11500000, guid: d0da544bd8d09b04a8522f30a98979bb, type: 3}
+  m_Name: GeneralEnemyFactory
   m_EditorClassIdentifier: 
-  _small:
+  _boximonCyclopes:
     Prefab: {fileID: 4039413211455582134, guid: d9d5f457613b73345b267de32aacbb0c,
       type: 3}
     Scale:
       _min: 0.5
-      _max: 0.8
+      _max: 1
     PathOffset:
       _min: -0.4
       _max: 0.4
     Speed:
-      _min: 3
-      _max: 4
+      _min: 2.5
+      _max: 3.5
     Health:
       _min: 80
-      _max: 120
-  _medium:
+      _max: 200
+  _boximonFiery:
     Prefab: {fileID: 4001774723361141491, guid: 1ca94a31caa17d44fa0ad8d6bfb3a796,
       type: 3}
     Scale:
       _min: 0.8
-      _max: 1
+      _max: 1.2
     PathOffset:
       _min: -0.2
       _max: 0.2
     Speed:
-      _min: 1.5
-      _max: 2.5
+      _min: 1.2
+      _max: 2.2
     Health:
-      _min: 150
-      _max: 300
-  _large:
+      _min: 250
+      _max: 500
+  _spider:
     Prefab: {fileID: 4474525324007831586, guid: 83ed7f2e22d18f34e948b17c9215b22e,
       type: 3}
     Scale:
@@ -52,8 +52,8 @@ MonoBehaviour:
       _min: 0
       _max: 0
     Speed:
-      _min: 1
-      _max: 1.5
+      _min: 0.5
+      _max: 1
     Health:
-      _min: 500
+      _min: 600
       _max: 1000

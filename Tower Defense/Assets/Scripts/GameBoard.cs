@@ -113,8 +113,8 @@ public class GameBoard : MonoBehaviour
 
         _spawnPoints.Clear();
         _contentToUpdate.Clear();
-        ToggleDestination(_tiles[_tiles.Length / 2]);
-        ToggleSpawnPoint(_tiles[0]);
+        ToggleContent(_tiles[_tiles.Length / 2], GameTileContentType.Destination);
+        ToggleContent(_tiles[0], GameTileContentType.SpawnPoint);
     }
 
     public void GameUpdate()
@@ -187,99 +187,49 @@ public class GameBoard : MonoBehaviour
 
         return true;
     }
-
-    public void ToggleDestination(GameTile tile)
+    
+    public void ToggleContent(GameTile tile, GameTileContentType type)
     {
-        if(tile.Content.Type == GameTileContentType.Destination)
+        if(type == GameTileContentType.SpawnPoint)
         {
-            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
-            if(!FindPaths())
+            if (tile.Content.Type == type)
             {
-                tile.Content = _contentFactory.Get(GameTileContentType.Destination);
-                FindPaths();
-            }            
-        }
-        else if(tile.Content.Type == GameTileContentType.Empty)
-        {
-            tile.Content = _contentFactory.Get(GameTileContentType.Destination);
-            FindPaths();
-        }
-    }
-
-    public void ToggleSpawnPoint(GameTile tile)
-    {
-        if(tile.Content.Type == GameTileContentType.SpawnPoint)
-        {
-            if(_spawnPoints.Count > 1)
-            {
-                _spawnPoints.Remove(tile);
-                tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+                if (_spawnPoints.Count > 1)
+                {
+                    _spawnPoints.Remove(tile);
+                    tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+                }
             }
-        }
-        else if(tile.Content.Type == GameTileContentType.Empty)
-        {            
-            tile.Content = _contentFactory.Get(GameTileContentType.SpawnPoint);
-            _spawnPoints.Add(tile);
-        }
-    }
-
-    public void ToggleWall(GameTile tile)
-    {
-        if (tile.Content.Type == GameTileContentType.Wall)
-        {
-            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
-            FindPaths();
-        }
-        else if(tile.Content.Type == GameTileContentType.Empty)
-        {
-            tile.Content = _contentFactory.Get(GameTileContentType.Wall);
-            if(!FindPaths())
+            else if (tile.Content.Type == GameTileContentType.Empty)
             {
-                tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+                tile.Content = _contentFactory.Get(type);
+                _spawnPoints.Add(tile);
+            }
+            return;
+        }
+
+        if (tile.Content.Type == type)
+        {
+            _contentToUpdate.Remove(tile.Content);
+            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
+            if (!FindPaths())
+            {
+                tile.Content = _contentFactory.Get(type);
                 FindPaths();
-            }            
-        }
-    }
-
-    public void ToggleIceObstacle(GameTile tile)
-    {
-        if (tile.Content.Type == GameTileContentType.Ice)
-        {
-            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
-            _contentToUpdate.Remove(tile.Content);
-        }
-        else if (tile.Content.Type == GameTileContentType.Empty)
-        {
-            tile.Content = _contentFactory.Get(GameTileContentType.Ice);
-            _contentToUpdate.Add(tile.Content);
-        }
-    }
-
-    public void ToggleTower(GameTile tile, TowerType type)
-    {
-        if (tile.Content.Type == GameTileContentType.Tower)
-        {
-            _contentToUpdate.Remove(tile.Content);
-            tile.Content = _contentFactory.Get(GameTileContentType.Empty);
-            FindPaths();
+            }          
         }
         else if (tile.Content.Type == GameTileContentType.Empty)
         {
             tile.Content = _contentFactory.Get(type);
             if (FindPaths())
             {
-                _contentToUpdate.Add(tile.Content);                
+                _contentToUpdate.Add(tile.Content);
             }
             else
             {
                 tile.Content = _contentFactory.Get(GameTileContentType.Empty);
                 FindPaths();
             }
-        }
-        else if(tile.Content.Type == GameTileContentType.Wall)
-        {            
-            tile.Content = _contentFactory.Get(type);
-            _contentToUpdate.Add(tile.Content);
         }
     }
 
@@ -299,8 +249,8 @@ public class GameBoard : MonoBehaviour
         return null;
     }
 
-    public GameTile GetSpawnPoint(int index)
+    public GameTile GetSpawnPoint()
     {
-        return _spawnPoints[index];
+        return _spawnPoints[Random.Range(0, _spawnPoints.Count)];
     }
 }

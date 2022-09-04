@@ -8,8 +8,6 @@ public class MortarTower : Tower
     [SerializeField, Range(.5f, 3f)] private float _shellBlastRadius = 1f;
     [SerializeField, Range(1f, 100f)] private float _shellDamage = 10f;
 
-    public override TowerType Type => TowerType.Mortar;
-
     private readonly float _gravity = -Physics.gravity.y;
     private float _lauchSpeed;
     private float _lauchProgress;
