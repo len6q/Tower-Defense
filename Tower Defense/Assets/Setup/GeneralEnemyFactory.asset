@@ -17,7 +17,7 @@ MonoBehaviour:
       type: 3}
     Scale:
       _min: 0.5
-      _max: 1
+      _max: 0.65
     PathOffset:
       _min: -0.4
       _max: 0.4
@@ -31,8 +31,8 @@ MonoBehaviour:
     Prefab: {fileID: 4001774723361141491, guid: 1ca94a31caa17d44fa0ad8d6bfb3a796,
       type: 3}
     Scale:
-      _min: 0.8
-      _max: 1.2
+      _min: 0.7
+      _max: 0.9
     PathOffset:
       _min: -0.2
       _max: 0.2
@@ -52,8 +52,8 @@ MonoBehaviour:
       _min: 0
       _max: 0
     Speed:
-      _min: 0.5
-      _max: 1
+      _min: 0.2
+      _max: 1.1
     Health:
       _min: 600
       _max: 1000

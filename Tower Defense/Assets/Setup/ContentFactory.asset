@@ -20,8 +20,11 @@ MonoBehaviour:
     type: 3}
   _spawnPointPrefab: {fileID: 2524144259806837991, guid: 434d0994d0600cb439f143c4ddfae0b8,
     type: 3}
-  _towersPrefab:
-  - {fileID: 5892914846164505428, guid: 98c3645625a971c46831e7e60633597d, type: 3}
-  - {fileID: 4327459988807069394, guid: d85a5afb8b4e525408a947ba1c562fb9, type: 3}
-  _icePrefab: {fileID: 8659550791915835683, guid: bb21eea0e00b8434abc07d9efa0d097e,
+  _laserTowerPrefab: {fileID: 5892914846164505428, guid: 98c3645625a971c46831e7e60633597d,
+    type: 3}
+  _mortarTowerPrefab: {fileID: 4327459988807069394, guid: d85a5afb8b4e525408a947ba1c562fb9,
+    type: 3}
+  _iceObstaclePrefab: {fileID: 8659550791915835683, guid: bb21eea0e00b8434abc07d9efa0d097e,
+    type: 3}
+  _spikeObstaclePrefab: {fileID: -7117755843620540874, guid: a46914dce5640974f94b01670d96724f,
     type: 3}

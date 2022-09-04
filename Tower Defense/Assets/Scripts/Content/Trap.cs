@@ -6,6 +6,7 @@ public abstract class Trap : GameTileContent
 {    
     protected event Action<TargetPoint> Entered;
     protected event Action<TargetPoint> Exited;
+    protected event Action<TargetPoint> Stayed;
 
     private void OnTriggerEnter(Collider other)
     {        
@@ -13,6 +14,14 @@ public abstract class Trap : GameTileContent
         {            
             Entered?.Invoke(target);
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.TryGetComponent(out TargetPoint target))
+        {
+            Stayed?.Invoke(target);
+        }    
     }
 
     private void OnTriggerExit(Collider other)

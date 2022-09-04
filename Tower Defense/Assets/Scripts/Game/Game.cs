@@ -177,7 +177,7 @@ public class Game : MonoBehaviour
         GameTile tile = _board.GetTile(TouchRay);
         if(tile != null)
         {
-            if(Input.GetKey(KeyCode.I))
+            if(Input.GetKey(KeyCode.T))
             {
                 _board.ToggleContent(tile, _currentTrapType);
             }
