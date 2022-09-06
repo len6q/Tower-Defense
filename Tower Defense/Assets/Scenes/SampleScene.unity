@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scenario: {fileID: 11400000, guid: c39bc596e14605c4897bc17ec6a65fd3, type: 2}
-  _boardSize: {x: 15, y: 11}
+  _boardSize: {x: 17, y: 13}
   _board: {fileID: 503499861}
   _main: {fileID: 330585545}
   _contentFactory: {fileID: 11400000, guid: e4b3fb949c3c99245aaf79fa53191b60, type: 2}

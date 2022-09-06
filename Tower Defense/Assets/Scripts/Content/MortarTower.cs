@@ -4,6 +4,7 @@ public class MortarTower : Tower
 {
     [SerializeField, Range(.5f, 3f)] private float _shootsPerSeconds = 1f;
     [SerializeField] private Transform _mortar;
+    [SerializeField] private Transform _tower;
 
     [SerializeField, Range(.5f, 3f)] private float _shellBlastRadius = 1f;
     [SerializeField, Range(1f, 100f)] private float _shellDamage = 10f;
@@ -19,7 +20,7 @@ public class MortarTower : Tower
 
     private void OnValidate()
     {
-        float x = _targetingRange + .301f;
+        float x = _targetingRange + _tower.localScale.y + .01f;
         float y = -_mortar.position.y;
         _lauchSpeed = Mathf.Sqrt(_gravity * (y + Mathf.Sqrt(x * x + y * y)));
     }
