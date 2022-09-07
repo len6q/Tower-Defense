@@ -6,7 +6,7 @@ public class GameScenario : ScriptableObject
 {
     [SerializeField] private EnemyWave[] _waves;
     [SerializeField, Range(0, 10)] private int _cycles = 1;
-    [SerializeField, Range(0f, 1f)] private float _cycleSpeedUp = .5f;
+    [SerializeField, Range(0f, 1f)] private float _cycleSpeedUp = .5f;   
 
     public State Begin() => new State(this);
 
@@ -27,11 +27,16 @@ public class GameScenario : ScriptableObject
             _index = 0;
             _cycle = 0;
             _timeScale = 1f;
-            _wave = _scenario._waves[0].Begin();
+            _wave = _scenario._waves[0].Begin();            
+        }
+
+        public (int currentWave, int wavesCount) GetWaves()
+        {
+            return (_index + 1, _scenario._waves.Length);
         }
 
         public bool Progress()
-        {
+        {            
             float deltaTime = _wave.Progress(_timeScale * Time.deltaTime);
 
             while(deltaTime >= 0f)

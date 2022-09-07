@@ -6,9 +6,11 @@ public class Game : MonoBehaviour
     [SerializeField] private GameScenario _scenario;
     [SerializeField] private Vector2Int _boardSize;
     [SerializeField] private GameBoard _board;
-    [SerializeField] private Camera _main;
+    [SerializeField] private Camera _camera;
     [SerializeField] private GameTileContentFactory _contentFactory;    
     [SerializeField] private WarFactory _warFactory;
+    [SerializeField] private TilesBuilder _tilesBuilder;
+    [SerializeField] private DefenderHud _defenderHud;
 
     [SerializeField, Range(5f, 30f)] private float _prepareTime = 5f;
     
@@ -16,19 +18,23 @@ public class Game : MonoBehaviour
 
     [SerializeField, Range(.1f, 10f)] private float _playSpeed = 1f; 
 
-    [SerializeField, Range(0f, 100f)] private float _startingPlayerHealth = 50f;
-    private float _playerHealth;
+    [SerializeField, Range(0f, 100)] private int _startingPlayerHealth = 50;
+    private int _playerHealth;
+    private int PlayerHeath
+    {
+        get => _playerHealth;
+        set
+        {
+            _playerHealth = value;
+            _defenderHud.UpdatePlayerHeath(_playerHealth, _startingPlayerHealth);
+        }
+    }
 
     private static Game _instance;
 
     private GameBehaviorCollection _enemies = new GameBehaviorCollection();
     private GameBehaviorCollection _nonEnemies = new GameBehaviorCollection();
-
-    private Ray TouchRay => _main.ScreenPointToRay(Input.mousePosition);
-
-    private GameTileContentType _currentTowerType = GameTileContentType.LaserTower;
-    private GameTileContentType _currentTrapType = GameTileContentType.IceObstacle;
-
+    
     private GameScenario.State _activeScenario;
 
     private const float PAUSE_TIME_SCALE = 0f;
@@ -36,6 +42,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         _board.Initialize(_boardSize, _contentFactory);
+        _tilesBuilder.Initialize(_contentFactory, _camera, _board);
         _board.ShowPath = false;
         _board.ShowGrid = true;
         BeginNewGame();
@@ -74,38 +81,20 @@ public class Game : MonoBehaviour
         {
             _board.ShowPath = !_board.ShowPath;
         }
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            _currentTowerType = GameTileContentType.LaserTower;
-            _currentTrapType = GameTileContentType.IceObstacle;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            _currentTowerType = GameTileContentType.MortarTower;
-            _currentTrapType = GameTileContentType.SpikeObstacle;
-        }
-
-        if(Input.GetMouseButtonDown(0))
-        {            
-            HandleAnotherTouch();
-        }
-        else if(Input.GetMouseButtonDown(1))
-        {
-            HandleTouch();
-        }
-
+       
         if(_scenationInProcess)
         {
-            if (_playerHealth <= 0f)
+            var waves = _activeScenario.GetWaves();
+            _defenderHud.UpdateScenarioWaves(waves.currentWave, waves.wavesCount);
+            if (PlayerHeath <= 0)
             {
-                Debug.Log("defeat");
+                Debug.Log("Defeated!");
                 BeginNewGame();
             }
 
             if (!_activeScenario.Progress() && _enemies.IsEmpty)
             {
-                Debug.Log("victory!");
+                Debug.Log("Victory!");
                 BeginNewGame();
                 _activeScenario.Progress();
             }
@@ -121,17 +110,25 @@ public class Game : MonoBehaviour
 
     private void BeginNewGame()
     {
+        Cleanup();
+        _tilesBuilder.Enable();
+        _activeScenario = _scenario.Begin();
+        _prepareRoutine = StartCoroutine(PrepareRoutine());
+    }
+
+    private void Cleanup()
+    {
+        _tilesBuilder.Disable();
         _scenationInProcess = false;
-        if(_prepareRoutine != null)
+        if (_prepareRoutine != null)
         {
             StopCoroutine(_prepareRoutine);
         }
-        _playerHealth = _startingPlayerHealth;
+        PlayerHeath = _startingPlayerHealth;
         _enemies.Clear();
         _nonEnemies.Clear();
         _board.Clear();
-        _activeScenario = _scenario.Begin();
-        _prepareRoutine = StartCoroutine(PrepareRoutine());
+
     }
 
     private Coroutine _prepareRoutine;
@@ -145,7 +142,7 @@ public class Game : MonoBehaviour
 
     public static void EnemyReachedDestination()
     {
-        _instance._playerHealth -= 1;
+        _instance.PlayerHeath -= 1;
     }
 
     public static void SpawnEnemy(EnemyFactory factory, EnemyType type)
@@ -154,43 +151,7 @@ public class Game : MonoBehaviour
         Enemy enemy = factory.Get(type);
         enemy.SpawnOn(spawnTile);
         _instance._enemies.Add(enemy);
-    }
-
-    private void HandleTouch()
-    {        
-        GameTile tile = _board.GetTile(TouchRay);        
-        if(tile != null)
-        {
-            if(Input.GetKey(KeyCode.LeftShift))
-            {
-                _board.ToggleContent(tile, GameTileContentType.SpawnPoint);
-            }
-            else
-            {
-                _board.ToggleContent(tile, GameTileContentType.Destination);
-            }            
-        }
-    }
-    
-    private void HandleAnotherTouch()
-    {
-        GameTile tile = _board.GetTile(TouchRay);
-        if(tile != null)
-        {
-            if(Input.GetKey(KeyCode.T))
-            {
-                _board.ToggleContent(tile, _currentTrapType);
-            }
-            else if(Input.GetKey(KeyCode.LeftShift))
-            {
-                _board.ToggleContent(tile, _currentTowerType);
-            }
-            else
-            {
-                _board.ToggleContent(tile, GameTileContentType.Wall);
-            }            
-        }
-    }
+    }    
 
     public static Shell SpawnShell()
     {

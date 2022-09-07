@@ -16,16 +16,12 @@ MonoBehaviour:
   - _factory: {fileID: 11400000, guid: 59f3f2ae8c6fb3742ae1f19fe7b3325a, type: 2}
     _type: 0
     _amount: 45
-    _cooldown: 0.66
-  - _factory: {fileID: 11400000, guid: 59f3f2ae8c6fb3742ae1f19fe7b3325a, type: 2}
-    _type: 1
-    _amount: 30
     _cooldown: 1.5
   - _factory: {fileID: 11400000, guid: 59f3f2ae8c6fb3742ae1f19fe7b3325a, type: 2}
-    _type: 0
-    _amount: 45
-    _cooldown: 0.5
+    _type: 2
+    _amount: 25
+    _cooldown: 2.5
   - _factory: {fileID: 11400000, guid: 59f3f2ae8c6fb3742ae1f19fe7b3325a, type: 2}
     _type: 2
-    _amount: 5
+    _amount: 10
     _cooldown: 5
