@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 13436af4ae9c6ea459a3f4ad318a30be
+guid: c5b8b4152f99e0749a5d14fd7444880f
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Abel
+  - Poiret One
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
