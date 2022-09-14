@@ -68,7 +68,7 @@ public class Enemy : GameBehavior
 
     public override bool GameUpdate()
     {
-        if (!_view.IsInited)
+        if (_view.IsInited == false)
         {            
             return true;
         }

@@ -92,7 +92,7 @@ public class Game : MonoBehaviour
                 BeginNewGame();
             }
 
-            if (!_activeScenario.Progress() && _enemies.IsEmpty)
+            if (_activeScenario.Progress() == false && _enemies.IsEmpty)
             {
                 Debug.Log("Victory!");
                 BeginNewGame();

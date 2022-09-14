@@ -7,12 +7,12 @@ public abstract class GameObjectFactory : ScriptableObject
 
     protected T CreateGameObjectInstance<T>(T prefab) where T : MonoBehaviour
     {
-        if (!_contentScene.isLoaded)
+        if (_contentScene.isLoaded == false)
         {
             if (Application.isEditor)
             {
                 _contentScene = SceneManager.GetSceneByName(name);
-                if (!_contentScene.isLoaded)
+                if (_contentScene.isLoaded == false)
                 {
                     _contentScene = SceneManager.CreateScene(name);
                 }

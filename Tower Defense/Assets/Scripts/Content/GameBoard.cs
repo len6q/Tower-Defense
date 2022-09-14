@@ -171,7 +171,7 @@ public class GameBoard : MonoBehaviour
 
         foreach(var tile in _tiles)
         {
-            if(!tile.HasPath)
+            if(tile.HasPath == false)
             {
                 return false;
             }

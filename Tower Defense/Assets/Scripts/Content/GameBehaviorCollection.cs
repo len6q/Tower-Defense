@@ -15,7 +15,7 @@ public class GameBehaviorCollection
     {
         for(int i = 0; i < _behaviors.Count; i++)
         {
-            if(!_behaviors[i].GameUpdate())
+            if(_behaviors[i].GameUpdate() == false)
             {
                 int lastIndex = _behaviors.Count - 1;
                 _behaviors[i] = _behaviors[lastIndex];
